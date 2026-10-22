@@ -193,6 +193,9 @@ em { color: var(--roxo); font-style: italic; }
 .sabor dd { margin: 0; color: var(--texto-suave); }
 .sabor__preco { margin: 0; padding-top: 1rem; border-top: 1px solid var(--rosa-medio); font-family: var(--fonte-titulo); font-weight: 700; font-size: 1.6rem; color: var(--roxo-escuro); }
 .sabor__preco small { font-family: var(--fonte); font-weight: 600; font-size: .85rem; color: var(--texto-suave); }
+.docinhos-cardapio { margin-top: 2.5rem; text-align: center; }
+.docinhos-cardapio ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; }
+.docinhos-cardapio li { background: var(--rosa); color: var(--roxo-profundo); padding: .45rem .95rem; border-radius: 999px; font-weight: 600; font-size: .92rem; }
 
 /* ---------- sobre ---------- */
 .sobre { display: grid; grid-template-columns: .9fr 1.1fr; gap: 3.5rem; align-items: center; }
@@ -218,7 +221,9 @@ em { color: var(--roxo); font-style: italic; }
   overflow: hidden;
   max-width: 960px; margin-inline: auto;
 }
-.calc__form { padding: clamp(1.5rem, 4vw, 2.6rem); display: grid; gap: 1.5rem; }
+/* minmax(0, …) não deixa um select com texto longo alargar a coluna no celular */
+.calc > * { min-width: 0; }
+.calc__form { padding: clamp(1.5rem, 4vw, 2.6rem); display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
 .calc__modo { border: 0; padding: 0; margin: 0; display: flex; gap: .5rem; flex-wrap: wrap; }
 .calc__modo legend { font-weight: 800; margin-bottom: .6rem; padding: 0; }
 .calc__modo label {
@@ -231,7 +236,7 @@ em { color: var(--roxo); font-style: italic; }
 .calc__modo input { position: absolute; opacity: 0; pointer-events: none; }
 .calc__modo label:has(input:checked) { border-color: var(--roxo-escuro); background: var(--rosa); color: var(--roxo-profundo); }
 .calc__modo label:has(input:focus-visible) { outline: 2px solid var(--roxo); outline-offset: 2px; }
-.calc__campo { display: grid; gap: .5rem; }
+.calc__campo { display: grid; grid-template-columns: minmax(0, 1fr); gap: .5rem; }
 .calc__campo label { font-weight: 800; display: flex; justify-content: space-between; align-items: baseline; }
 .calc__campo output { font-family: var(--fonte-titulo); font-size: 1.3rem; color: var(--roxo-escuro); }
 .calc__campo small, .opcional { color: var(--texto-suave); font-weight: 400; font-size: .85rem; }
@@ -242,6 +247,28 @@ em { color: var(--roxo); font-style: italic; }
 }
 .calc__campo select:focus, .calc__campo input[type="date"]:focus { outline: none; border-color: var(--roxo); }
 input[type="range"] { width: 100%; accent-color: var(--roxo-escuro); height: 28px; }
+.calc__docinhos { border: 0; padding: 0; margin: 0; min-width: 0; }
+.calc__docinhos legend { font-weight: 800; margin-bottom: .6rem; padding: 0; }
+.docinho {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .6rem 0; border-bottom: 1px solid var(--rosa-medio);
+}
+.docinho:last-child { border-bottom: 0; }
+.docinho__nome { font-weight: 700; line-height: 1.25; }
+.docinho__nome small { display: block; font-weight: 400; font-size: .82rem; color: var(--texto-suave); }
+.qtd { display: flex; align-items: center; flex-shrink: 0; border: 1.5px solid var(--rosa-medio); border-radius: 12px; background: var(--creme); }
+.qtd button {
+  width: 36px; height: 36px; border: 0; background: none; cursor: pointer;
+  font: inherit; font-size: 1.2rem; font-weight: 800; color: var(--roxo-escuro);
+}
+.qtd button:hover { color: var(--roxo-profundo); }
+.qtd input {
+  width: 3.2rem; border: 0; background: none; text-align: center;
+  font: inherit; font-weight: 800; color: var(--texto); -moz-appearance: textfield;
+}
+.qtd input::-webkit-inner-spin-button, .qtd input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.qtd input:focus { outline: none; }
+.qtd:focus-within { border-color: var(--roxo); }
 
 .calc__resultado {
   background: linear-gradient(160deg, var(--roxo), var(--roxo-escuro));
@@ -252,6 +279,7 @@ input[type="range"] { width: 100%; accent-color: var(--roxo-escuro); height: 28p
 .calc__rotulo { margin: 0; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; font-size: .8rem; opacity: .85; }
 .calc__valor { font-family: var(--fonte-titulo); font-weight: 700; font-size: clamp(2.6rem, 6vw, 3.4rem); margin: .2rem 0; line-height: 1.1; }
 .calc__detalhe { margin: 0 0 1.6rem; opacity: .9; }
+.calc__extra { margin: -1rem 0 1.6rem; font-size: .92rem; opacity: .9; }
 .calc__aviso { font-size: .82rem; opacity: .8; margin: 1rem 0 0; }
 
 /* ---------- passos ---------- */

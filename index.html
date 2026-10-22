@@ -84,6 +84,10 @@
           <p>Valores por quilo de bolo. O tema e a decoração a gente combina pelo WhatsApp.</p>
         </div>
         <div class="sabores" id="lista-sabores"></div>
+        <div class="docinhos-cardapio">
+          <h3>Docinhos pra acompanhar</h3>
+          <ul id="lista-docinhos"></ul>
+        </div>
       </div>
     </section>
 
@@ -142,6 +146,11 @@
               <small id="sabor-desc"></small>
             </div>
 
+            <fieldset class="calc__docinhos">
+              <legend>Docinhos <span class="opcional">(opcional)</span></legend>
+              <div id="calc-docinhos"></div>
+            </fieldset>
+
             <div class="calc__campo">
               <label for="data">Data da festa <span class="opcional">(opcional)</span></label>
               <input type="date" id="data">
@@ -152,6 +161,7 @@
             <p class="calc__rotulo">Valor estimado</p>
             <p class="calc__valor" id="calc-valor">R$ 0,00</p>
             <p class="calc__detalhe" id="calc-detalhe"></p>
+            <p class="calc__extra" id="calc-extra" hidden></p>
             <a href="#" class="btn btn--wpp btn--bloco" id="calc-wpp" target="_blank" rel="noopener">Pedir orçamento no WhatsApp</a>
             <p class="calc__aviso">Valor aproximado. O preço final depende da decoração e dos detalhes do tema — a gente fecha tudo direitinho pelo WhatsApp.</p>
           </div>

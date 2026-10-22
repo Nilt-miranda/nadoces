@@ -108,6 +108,7 @@ SABORES.forEach((s) => {
     <p class="sabor__preco">${brl(s.precoKg)}<small>/kg</small></p>`;
   $('#lista-sabores').append(card);
 });
+DOCINHOS.forEach((d) => $('#lista-docinhos').append(Object.assign(document.createElement('li'), { textContent: d.nome })));
 
 // ---------- calculadora ----------
 const form = $('#calc-form');
@@ -119,6 +120,27 @@ const selSabor = $('#sabor');
 TIPOS.filter((t) => t.calc !== false).forEach((t) => selTipo.append(new Option(t.nome, t.id)));
 SABORES.forEach((s, i) => selSabor.append(new Option(`${s.nome} · ${brl(s.precoKg)}/kg`, i)));
 inData.min = new Date().toISOString().slice(0, 10);
+
+const qtdDocinhos = DOCINHOS.map((d, i) => {
+  const linha = document.createElement('div');
+  linha.className = 'docinho';
+  linha.innerHTML = `<label class="docinho__nome" for="docinho-${i}">${d.nome}<small>${d.desc}</small></label>
+    <div class="qtd">
+      <button type="button" aria-label="Menos ${d.nome}">−</button>
+      <input type="number" id="docinho-${i}" min="0" step="${CONFIG.docinhosPasso}" value="0" inputmode="numeric">
+      <button type="button" aria-label="Mais ${d.nome}">+</button>
+    </div>`;
+  const input = $('input', linha);
+  const [menos, mais] = $$('button', linha);
+  const mudar = (delta) => {
+    input.value = Math.max(0, (+input.value || 0) + delta);
+    calcular();
+  };
+  menos.addEventListener('click', () => mudar(-CONFIG.docinhosPasso));
+  mais.addEventListener('click', () => mudar(CONFIG.docinhosPasso));
+  $('#calc-docinhos').append(linha);
+  return input;
+});
 
 const kgFmt = (kg) => `${kg.toLocaleString('pt-BR', { maximumFractionDigits: 1 })} kg`;
 
@@ -137,12 +159,21 @@ function calcular() {
     kg = +inPeso.value;
     pessoas = Math.floor((kg * 1000) / CONFIG.gramasPorPessoa);
   }
-  const valor = kg * sabor.precoKg;
+  const docinhos = DOCINHOS
+    .map((d, i) => ({ ...d, qtd: Math.max(0, Math.floor(+qtdDocinhos[i].value || 0)) }))
+    .filter((d) => d.qtd > 0);
+  const totalDocinhos = docinhos.reduce((soma, d) => soma + d.qtd, 0);
+  const docinhosACombinar = docinhos.some((d) => d.precoUn == null);
+  const valorDocinhos = docinhos.reduce((soma, d) => soma + d.qtd * (d.precoUn ?? 0), 0);
+  const valor = kg * sabor.precoKg + valorDocinhos;
 
   $('#pessoas-out').textContent = inPessoas.value;
   $('#peso-out').textContent = kgFmt(+inPeso.value);
   $('#calc-valor').textContent = brl(valor);
   $('#calc-detalhe').textContent = `${kgFmt(kg)} · serve aprox. ${pessoas} pessoas · ${brl(sabor.precoKg)}/kg`;
+  const extra = $('#calc-extra');
+  extra.hidden = totalDocinhos === 0;
+  extra.textContent = `+ ${totalDocinhos} docinhos · ${docinhosACombinar ? 'valor a combinar' : `${brl(valorDocinhos)} incluídos`}`;
 
   const tipoNome = selTipo.options[selTipo.selectedIndex].text;
   const data = inData.value ? new Date(inData.value + 'T12:00').toLocaleDateString('pt-BR') : 'a combinar';
@@ -152,8 +183,9 @@ function calcular() {
     `• Tipo: ${tipoNome}`,
     `• Sabor: ${sabor.nome} (${brl(sabor.precoKg)}/kg)`,
     `• Tamanho: ${kgFmt(kg)} (aprox. ${pessoas} pessoas)`,
+    ...(docinhos.length ? ['• Docinhos:', ...docinhos.map((d) => `   - ${d.qtd} ${d.nome}`)] : []),
     `• Data da festa: ${data}`,
-    `• Valor estimado no site: ${brl(valor)}`,
+    `• Valor estimado no site: ${brl(valor)}${docinhosACombinar ? ' (sem os docinhos, a combinar)' : ''}`,
   ].join('\n');
   $('#calc-wpp').href = linkWpp(msg);
 }

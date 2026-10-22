@@ -11,6 +11,7 @@ const CONFIG = {
   nomeConfeiteira: 'Natália',     // aparece em "Prazer, eu sou a ..."
   whatsapp: '5511989794114',      // só números, com 55 + DDD
   gramasPorPessoa: 100,           // usado na calculadora por nº de pessoas
+  docinhosPasso: 10,              // os botões − / + dos docinhos andam de quanto em quanto
 };
 
 // Tipos de bolo (aparecem nos cards, nos filtros da galeria e na calculadora)
@@ -50,4 +51,16 @@ const SABORES = [
   { nome: 'Brigadeiro com Morango', icone: '🍫🍓', precoKg: 110, massa: 'Chocolate',            recheio: 'Brigadeiro com morangos',              cobertura: 'Brigadeiro' },
   { nome: 'Merengue de Morango',    icone: '🍓',   precoKg: 115, massa: 'Baunilha',             recheio: 'Creme de nata com morangos e suspiro', cobertura: 'Chantilly' },
   { nome: 'Pão de Mel',             icone: '🍯',   precoKg: 100, massa: 'Chocolate com canela', recheio: 'Doce de leite',                        cobertura: 'Brigadeiro' },
+];
+
+// Docinhos que podem ser adicionados ao pedido na calculadora.
+// precoUn: preço por unidade (R$). Deixe null enquanto o valor for "a combinar".
+const DOCINHOS = [
+  { nome: 'Brigadeiro',             desc: 'Tradicional, ao leite',       precoUn: null },
+  { nome: 'Beijinho',               desc: 'De coco',                     precoUn: null },
+  { nome: 'Casadinho',              desc: 'Ninho com brigadeiro',        precoUn: null },
+  { nome: 'Bicho de pé',            desc: 'De morango',                  precoUn: null },
+  { nome: 'Brigadeiro meio amargo', desc: 'Chocolate meio amargo',       precoUn: null },
+  { nome: 'Brigadeiro com Nutella', desc: 'Recheado com Nutella',        precoUn: null },
+  { nome: 'Docinhos temáticos',     desc: 'Decorados no tema da festa',  precoUn: null },
 ];
