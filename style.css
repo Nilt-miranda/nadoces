@@ -179,10 +179,20 @@ em { color: var(--roxo); font-style: italic; }
 }
 
 /* ---------- sabores ---------- */
-.sabores { display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem; }
-.sabores__bloco { background: var(--branco); border: 1px solid var(--rosa-medio); border-radius: var(--raio); padding: 1.8rem; }
-.sabores ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
-.sabores li { background: var(--rosa); color: var(--roxo-profundo); padding: .45rem .95rem; border-radius: 999px; font-weight: 600; font-size: .92rem; }
+.sabores { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; }
+.sabor {
+  display: flex; flex-direction: column;
+  padding: 1.6rem;
+  border-radius: var(--raio);
+  background: var(--branco);
+  border: 1px solid var(--rosa-medio);
+}
+.sabor__icone { font-size: 1.7rem; line-height: 1; margin-bottom: .8rem; }
+.sabor dl { margin: 0 0 1.2rem; flex: 1; display: grid; gap: .5rem; font-size: .92rem; }
+.sabor dt { font-weight: 800; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--roxo); }
+.sabor dd { margin: 0; color: var(--texto-suave); }
+.sabor__preco { margin: 0; padding-top: 1rem; border-top: 1px solid var(--rosa-medio); font-family: var(--fonte-titulo); font-weight: 700; font-size: 1.6rem; color: var(--roxo-escuro); }
+.sabor__preco small { font-family: var(--fonte); font-weight: 600; font-size: .85rem; color: var(--texto-suave); }
 
 /* ---------- sobre ---------- */
 .sobre { display: grid; grid-template-columns: .9fr 1.1fr; gap: 3.5rem; align-items: center; }
@@ -222,7 +232,6 @@ em { color: var(--roxo); font-style: italic; }
 .calc__modo label:has(input:checked) { border-color: var(--roxo-escuro); background: var(--rosa); color: var(--roxo-profundo); }
 .calc__modo label:has(input:focus-visible) { outline: 2px solid var(--roxo); outline-offset: 2px; }
 .calc__campo { display: grid; gap: .5rem; }
-.calc__duplo { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .calc__campo label { font-weight: 800; display: flex; justify-content: space-between; align-items: baseline; }
 .calc__campo output { font-family: var(--fonte-titulo); font-size: 1.3rem; color: var(--roxo-escuro); }
 .calc__campo small, .opcional { color: var(--texto-suave); font-weight: 400; font-size: .85rem; }
@@ -289,7 +298,7 @@ input[type="range"] { width: 100%; accent-color: var(--roxo-escuro); height: 28p
   .topo__nav a:not(.btn) { padding: .8rem 0; border-bottom: 1px solid var(--rosa-medio); }
   .topo__nav .btn { margin-top: 1rem; }
 
-  .hero__inner, .sobre, .calc, .sabores, .calc__duplo { grid-template-columns: 1fr; }
+  .hero__inner, .sobre, .calc { grid-template-columns: 1fr; }
   .hero__logo { order: -1; }
   .hero__logo img { max-width: 240px; }
   .hero__texto { text-align: center; }

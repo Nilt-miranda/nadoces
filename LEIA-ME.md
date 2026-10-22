@@ -10,11 +10,10 @@ cd ~/nadoces-site && python3 -m http.server 8765
 
 Tudo que muda com frequência fica em **`dados.js`**:
 
-- `CONFIG.precoKg`: valor médio do kg (hoje R$ 110)
 - `CONFIG.nomeConfeiteira`: nome que aparece em "Prazer, eu sou a ..."
 - `TIPOS`: tipos de bolo (cards, filtros da galeria e opções da calculadora)
 - `BOLOS`: fotos da galeria (adicione quantas linhas quiser)
-- `MASSAS` / `RECHEIOS`: sabores (lista do site e opções da calculadora)
+- `SABORES`: cardápio com massa, recheio, cobertura e preço por kg (seção Sabores e calculadora)
 
 ## Fotos
 

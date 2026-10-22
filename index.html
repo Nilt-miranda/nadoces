@@ -55,7 +55,7 @@
     <section id="tipos" class="secao">
       <div class="container">
         <div class="secao__cabeca">
-          <p class="selo">Nosso cardápio</p>
+          <p class="selo">Estilos</p>
           <h2>Tipos de bolo</h2>
           <p>Escolha um estilo e veja as fotos dos bolos já feitos.</p>
         </div>
@@ -79,20 +79,11 @@
     <section id="sabores" class="secao">
       <div class="container">
         <div class="secao__cabeca">
-          <p class="selo">Monte o seu</p>
-          <h2>Massas e recheios</h2>
-          <p>Combine uma massa com até dois recheios. Pergunte também pelos sabores da estação!</p>
+          <p class="selo">Cardápio</p>
+          <h2>Sabores e preços</h2>
+          <p>Valores por quilo de bolo. O tema e a decoração a gente combina pelo WhatsApp.</p>
         </div>
-        <div class="sabores">
-          <div class="sabores__bloco">
-            <h3>Massas</h3>
-            <ul id="lista-massas"></ul>
-          </div>
-          <div class="sabores__bloco">
-            <h3>Recheios</h3>
-            <ul id="lista-recheios"></ul>
-          </div>
-        </div>
+        <div class="sabores" id="lista-sabores"></div>
       </div>
     </section>
 
@@ -118,7 +109,7 @@
         <div class="secao__cabeca">
           <p class="selo">Orçamento rápido</p>
           <h2>Quanto fica o meu bolo?</h2>
-          <p>Faça uma estimativa com base no valor médio de <strong class="js-preco-kg"></strong> por quilo.</p>
+          <p>Escolha o tamanho e o sabor e veja uma estimativa. Bolos a partir de <strong class="js-preco-kg"></strong> o quilo.</p>
         </div>
 
         <div class="calc">
@@ -146,19 +137,9 @@
             </div>
 
             <div class="calc__campo">
-              <label for="massa">Massa</label>
-              <select id="massa"></select>
-            </div>
-
-            <div class="calc__duplo">
-              <div class="calc__campo">
-                <label for="recheio1">Recheio</label>
-                <select id="recheio1"></select>
-              </div>
-              <div class="calc__campo">
-                <label for="recheio2">2º recheio <span class="opcional">(opcional)</span></label>
-                <select id="recheio2"><option value="">Só um recheio</option></select>
-              </div>
+              <label for="sabor">Sabor</label>
+              <select id="sabor"></select>
+              <small id="sabor-desc"></small>
             </div>
 
             <div class="calc__campo">
@@ -172,7 +153,7 @@
             <p class="calc__valor" id="calc-valor">R$ 0,00</p>
             <p class="calc__detalhe" id="calc-detalhe"></p>
             <a href="#" class="btn btn--wpp btn--bloco" id="calc-wpp" target="_blank" rel="noopener">Pedir orçamento no WhatsApp</a>
-            <p class="calc__aviso">Valor aproximado. O preço final depende dos recheios, da decoração e dos detalhes do tema — a gente fecha tudo direitinho pelo WhatsApp.</p>
+            <p class="calc__aviso">Valor aproximado. O preço final depende da decoração e dos detalhes do tema — a gente fecha tudo direitinho pelo WhatsApp.</p>
           </div>
         </div>
       </div>

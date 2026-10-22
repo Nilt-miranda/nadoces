@@ -10,7 +10,6 @@
 const CONFIG = {
   nomeConfeiteira: 'Natália',     // aparece em "Prazer, eu sou a ..."
   whatsapp: '5511989794114',      // só números, com 55 + DDD
-  precoKg: 110,                   // valor médio por quilo (R$)
   gramasPorPessoa: 100,           // usado na calculadora por nº de pessoas
 };
 
@@ -44,11 +43,11 @@ const BOLOS = [
   { tipo: 'doces',       nome: 'Brigadeiros natalinos', foto: 'fotos/brigadeiros-natal.jpg' },
 ];
 
-const MASSAS = ['Massa branca (baunilha)', 'Chocolate', 'Red velvet', 'Cenoura', 'Laranja', 'Coco'];
-
-const RECHEIOS = [
-  'Brigadeiro', 'Brigadeiro branco', 'Ninho', 'Ninho com morango',
-  'Morango com chantininho', 'Morango com suspiro',
-  'Mousse de brigadeiro', 'Doce de leite', 'Doce de leite com nozes', 'Prestígio', 'Limão siciliano', 'Maracujá',
-  'Abacaxi com coco', 'Frutas vermelhas', 'Ganache meio amargo',
+// Cardápio de sabores — preço por quilo (R$). Aparece na seção "Sabores" e na calculadora.
+const SABORES = [
+  { nome: 'Brigadeiro',             icone: '🍫',   precoKg: 95,  massa: 'Chocolate',            recheio: 'Brigadeiro',                           cobertura: 'Brigadeiro' },
+  { nome: 'Ninho com Morango',      icone: '🍓',   precoKg: 110, massa: 'Baunilha',             recheio: 'Brigadeiro de Ninho com morangos',     cobertura: 'Chantilly' },
+  { nome: 'Brigadeiro com Morango', icone: '🍫🍓', precoKg: 110, massa: 'Chocolate',            recheio: 'Brigadeiro com morangos',              cobertura: 'Brigadeiro' },
+  { nome: 'Merengue de Morango',    icone: '🍓',   precoKg: 115, massa: 'Baunilha',             recheio: 'Creme de nata com morangos e suspiro', cobertura: 'Chantilly' },
+  { nome: 'Pão de Mel',             icone: '🍯',   precoKg: 100, massa: 'Chocolate com canela', recheio: 'Doce de leite',                        cobertura: 'Brigadeiro' },
 ];

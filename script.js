@@ -5,7 +5,8 @@ const linkWpp = (msg) => `https://wa.me/${CONFIG.whatsapp}?text=${encodeURICompo
 
 // ---------- textos vindos da configuração ----------
 $$('.js-nome').forEach((el) => (el.textContent = CONFIG.nomeConfeiteira));
-$$('.js-preco-kg').forEach((el) => (el.textContent = brl(CONFIG.precoKg)));
+const precoMinimo = Math.min(...SABORES.map((s) => s.precoKg));
+$$('.js-preco-kg').forEach((el) => (el.textContent = brl(precoMinimo)));
 $('#ano').textContent = new Date().getFullYear();
 $$('.js-wpp').forEach((a) => {
   a.href = linkWpp('Olá! Vim pelo site da NaDoces e gostaria de fazer uma encomenda 🎂');
@@ -97,9 +98,16 @@ $('.lightbox__fechar').addEventListener('click', () => lightbox.close());
 lightbox.addEventListener('click', (e) => e.target === lightbox && lightbox.close());
 
 // ---------- sabores ----------
-const preencherLista = (ul, itens) => itens.forEach((i) => ul.append(Object.assign(document.createElement('li'), { textContent: i })));
-preencherLista($('#lista-massas'), MASSAS);
-preencherLista($('#lista-recheios'), RECHEIOS);
+const minuscula = (t) => t[0].toLowerCase() + t.slice(1); // mantém "Ninho" com maiúscula
+const descSabor = (s) => `Massa de ${minuscula(s.massa)}, recheio de ${minuscula(s.recheio)} e cobertura de ${minuscula(s.cobertura)}.`;
+SABORES.forEach((s) => {
+  const card = document.createElement('article');
+  card.className = 'sabor';
+  card.innerHTML = `<span class="sabor__icone" aria-hidden="true">${s.icone}</span><h3>${s.nome}</h3>
+    <dl><div><dt>Massa</dt><dd>${s.massa}</dd></div><div><dt>Recheio</dt><dd>${s.recheio}</dd></div><div><dt>Cobertura</dt><dd>${s.cobertura}</dd></div></dl>
+    <p class="sabor__preco">${brl(s.precoKg)}<small>/kg</small></p>`;
+  $('#lista-sabores').append(card);
+});
 
 // ---------- calculadora ----------
 const form = $('#calc-form');
@@ -107,12 +115,9 @@ const inPessoas = $('#pessoas');
 const inPeso = $('#peso');
 const selTipo = $('#tipo');
 const inData = $('#data');
-const selMassa = $('#massa');
-const selRecheio1 = $('#recheio1');
-const selRecheio2 = $('#recheio2');
+const selSabor = $('#sabor');
 TIPOS.filter((t) => t.calc !== false).forEach((t) => selTipo.append(new Option(t.nome, t.id)));
-MASSAS.forEach((m) => selMassa.append(new Option(m, m)));
-RECHEIOS.forEach((r) => { selRecheio1.append(new Option(r, r)); selRecheio2.append(new Option(r, r)); });
+SABORES.forEach((s, i) => selSabor.append(new Option(`${s.nome} · ${brl(s.precoKg)}/kg`, i)));
 inData.min = new Date().toISOString().slice(0, 10);
 
 const kgFmt = (kg) => `${kg.toLocaleString('pt-BR', { maximumFractionDigits: 1 })} kg`;
@@ -120,6 +125,9 @@ const kgFmt = (kg) => `${kg.toLocaleString('pt-BR', { maximumFractionDigits: 1 }
 function calcular() {
   const modo = form.modo.value;
   $$('[data-modo]', form).forEach((c) => (c.hidden = c.dataset.modo !== modo));
+
+  const sabor = SABORES[selSabor.value];
+  $('#sabor-desc').textContent = descSabor(sabor);
 
   let kg, pessoas;
   if (modo === 'pessoas') {
@@ -129,22 +137,20 @@ function calcular() {
     kg = +inPeso.value;
     pessoas = Math.floor((kg * 1000) / CONFIG.gramasPorPessoa);
   }
-  const valor = kg * CONFIG.precoKg;
+  const valor = kg * sabor.precoKg;
 
   $('#pessoas-out').textContent = inPessoas.value;
   $('#peso-out').textContent = kgFmt(+inPeso.value);
   $('#calc-valor').textContent = brl(valor);
-  $('#calc-detalhe').textContent = `${kgFmt(kg)} · serve aprox. ${pessoas} pessoas · ${brl(CONFIG.precoKg)}/kg`;
+  $('#calc-detalhe').textContent = `${kgFmt(kg)} · serve aprox. ${pessoas} pessoas · ${brl(sabor.precoKg)}/kg`;
 
   const tipoNome = selTipo.options[selTipo.selectedIndex].text;
-  const recheios = [selRecheio1.value, selRecheio2.value].filter(Boolean).join(' + ');
   const data = inData.value ? new Date(inData.value + 'T12:00').toLocaleDateString('pt-BR') : 'a combinar';
   const msg = [
     'Olá! Vim pelo site da NaDoces e gostaria de um orçamento 🎂',
     '',
     `• Tipo: ${tipoNome}`,
-    `• Massa: ${selMassa.value}`,
-    `• Recheio: ${recheios}`,
+    `• Sabor: ${sabor.nome} (${brl(sabor.precoKg)}/kg)`,
     `• Tamanho: ${kgFmt(kg)} (aprox. ${pessoas} pessoas)`,
     `• Data da festa: ${data}`,
     `• Valor estimado no site: ${brl(valor)}`,
