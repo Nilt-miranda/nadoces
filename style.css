@@ -100,7 +100,7 @@ em { color: var(--roxo); font-style: italic; }
 .hero__sub { font-size: 1.12rem; color: var(--texto-suave); max-width: 34rem; }
 .hero__acoes { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.8rem; }
 .hero__logo img {
-  width: 100%; max-width: 420px; margin-inline: auto;
+  width: 100%; max-width: 420px; height: auto; margin-inline: auto;
   border-radius: 50%;
   box-shadow: 0 30px 60px -20px rgba(79, 42, 73, .45);
   animation: flutuar 6s ease-in-out infinite;
@@ -332,7 +332,8 @@ input[type="range"] { width: 100%; accent-color: var(--roxo-escuro); height: 28p
 
   .hero__inner, .sobre, .calc { grid-template-columns: 1fr; }
   .hero__logo { order: -1; }
-  .hero__logo img { max-width: 240px; }
+  .hero__inner { gap: 1.5rem; }
+  .hero__logo img { max-width: 150px; box-shadow: 0 16px 32px -14px rgba(79, 42, 73, .45); }
   .hero__texto { text-align: center; }
   .hero__sub { margin-inline: auto; }
   .hero__acoes { justify-content: center; }
