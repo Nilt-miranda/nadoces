@@ -108,7 +108,18 @@ SABORES.forEach((s) => {
     <p class="sabor__preco">${brl(s.precoKg)}<small>/kg</small></p>`;
   $('#lista-sabores').append(card);
 });
-DOCINHOS.forEach((d) => $('#lista-docinhos').append(Object.assign(document.createElement('li'), { textContent: d.nome })));
+const precoDocinho = (d) => (d.precoCento == null ? 'consultar valor' : `${brl(d.precoCento)} o cento`);
+const precosCento = [...new Set(DOCINHOS.map((d) => d.precoCento).filter((p) => p != null))];
+// se todos têm o mesmo preço, mostra uma vez só em cima da lista
+const precoUnico = precosCento.length === 1 ? precosCento[0] : null;
+if (precoUnico != null) $('#docinhos-preco').textContent = `${brl(precoUnico)} o cento`;
+DOCINHOS.forEach((d) => {
+  const sufixo = d.precoCento == null || precoUnico == null ? ` · ${precoDocinho(d)}` : '';
+  $('#lista-docinhos').append(Object.assign(document.createElement('li'), { textContent: d.nome + sufixo }));
+});
+
+const avisoAgenda = `Encomendas com pelo menos ${CONFIG.diasAntecedencia} dias de antecedência. A confirmação depende da disponibilidade da agenda.`;
+$$('.js-aviso-agenda').forEach((el) => (el.textContent = avisoAgenda));
 
 // ---------- calculadora ----------
 const form = $('#calc-form');
@@ -119,12 +130,15 @@ const inData = $('#data');
 const selSabor = $('#sabor');
 TIPOS.filter((t) => t.calc !== false).forEach((t) => selTipo.append(new Option(t.nome, t.id)));
 SABORES.forEach((s, i) => selSabor.append(new Option(`${s.nome} · ${brl(s.precoKg)}/kg`, i)));
-inData.min = new Date().toISOString().slice(0, 10);
+const dataISO = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const primeiraData = new Date();
+primeiraData.setDate(primeiraData.getDate() + CONFIG.diasAntecedencia);
+inData.min = dataISO(primeiraData);
 
 const qtdDocinhos = DOCINHOS.map((d, i) => {
   const linha = document.createElement('div');
   linha.className = 'docinho';
-  linha.innerHTML = `<label class="docinho__nome" for="docinho-${i}">${d.nome}<small>${d.desc}</small></label>
+  linha.innerHTML = `<label class="docinho__nome" for="docinho-${i}">${d.nome}<small>${[d.desc, precoDocinho(d)].filter(Boolean).join(' · ')}</small></label>
     <div class="qtd">
       <button type="button" aria-label="Menos ${d.nome}">−</button>
       <input type="number" id="docinho-${i}" min="0" step="${CONFIG.docinhosPasso}" value="0" inputmode="numeric">
@@ -163,8 +177,8 @@ function calcular() {
     .map((d, i) => ({ ...d, qtd: Math.max(0, Math.floor(+qtdDocinhos[i].value || 0)) }))
     .filter((d) => d.qtd > 0);
   const totalDocinhos = docinhos.reduce((soma, d) => soma + d.qtd, 0);
-  const docinhosACombinar = docinhos.some((d) => d.precoUn == null);
-  const valorDocinhos = docinhos.reduce((soma, d) => soma + d.qtd * (d.precoUn ?? 0), 0);
+  const docinhosConsultar = docinhos.filter((d) => d.precoCento == null);
+  const valorDocinhos = docinhos.reduce((soma, d) => soma + (d.qtd * (d.precoCento ?? 0)) / 100, 0);
   const valor = kg * sabor.precoKg + valorDocinhos;
 
   $('#pessoas-out').textContent = inPessoas.value;
@@ -173,7 +187,18 @@ function calcular() {
   $('#calc-detalhe').textContent = `${kgFmt(kg)} · serve aprox. ${pessoas} pessoas · ${brl(sabor.precoKg)}/kg`;
   const extra = $('#calc-extra');
   extra.hidden = totalDocinhos === 0;
-  extra.textContent = `+ ${totalDocinhos} docinhos · ${docinhosACombinar ? 'valor a combinar' : `${brl(valorDocinhos)} incluídos`}`;
+  extra.textContent = [
+    `+ ${totalDocinhos} docinhos`,
+    valorDocinhos > 0 && `${brl(valorDocinhos)} incluídos`,
+    docinhosConsultar.length && `${docinhosConsultar.map((d) => d.nome).join(', ')}: consultar valor`,
+  ].filter(Boolean).join(' · ');
+
+  const dataCedo = inData.value && inData.value < inData.min;
+  const aviso = $('#data-aviso');
+  aviso.classList.toggle('alerta', !!dataCedo);
+  aviso.textContent = dataCedo
+    ? `Essa data é muito próxima: as encomendas precisam de pelo menos ${CONFIG.diasAntecedencia} dias de antecedência.`
+    : avisoAgenda;
 
   const tipoNome = selTipo.options[selTipo.selectedIndex].text;
   const data = inData.value ? new Date(inData.value + 'T12:00').toLocaleDateString('pt-BR') : 'a combinar';
@@ -183,9 +208,9 @@ function calcular() {
     `• Tipo: ${tipoNome}`,
     `• Sabor: ${sabor.nome} (${brl(sabor.precoKg)}/kg)`,
     `• Tamanho: ${kgFmt(kg)} (aprox. ${pessoas} pessoas)`,
-    ...(docinhos.length ? ['• Docinhos:', ...docinhos.map((d) => `   - ${d.qtd} ${d.nome}`)] : []),
+    ...(docinhos.length ? ['• Docinhos:', ...docinhos.map((d) => `   - ${d.qtd} ${d.nome} (${d.precoCento == null ? 'consultar valor' : brl((d.qtd * d.precoCento) / 100)})`)] : []),
     `• Data da festa: ${data}`,
-    `• Valor estimado no site: ${brl(valor)}${docinhosACombinar ? ' (sem os docinhos, a combinar)' : ''}`,
+    `• Valor estimado no site: ${brl(valor)}${docinhosConsultar.length ? ' (fora os docinhos a consultar)' : ''}`,
   ].join('\n');
   $('#calc-wpp').href = linkWpp(msg);
 }

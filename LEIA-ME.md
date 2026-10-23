@@ -14,8 +14,9 @@ Tudo que muda com frequência fica em **`dados.js`**:
 - `TIPOS`: tipos de bolo (cards, filtros da galeria e opções da calculadora)
 - `BOLOS`: fotos da galeria (adicione quantas linhas quiser)
 - `SABORES`: cardápio com massa, recheio, cobertura e preço por kg (seção Sabores e calculadora)
-- `DOCINHOS`: docinhos que dá pra adicionar na calculadora. Preencha `precoUn` (preço por unidade)
-  pra somar no valor estimado; com `null` aparece como "a combinar"
+- `DOCINHOS`: docinhos que dá pra adicionar na calculadora, com `precoCento` (preço do cento).
+  Com `null` aparece como "consultar valor" e não soma no valor estimado
+- `CONFIG.diasAntecedencia`: dias mínimos de antecedência (a calculadora não deixa escolher antes)
 
 ## Fotos
 

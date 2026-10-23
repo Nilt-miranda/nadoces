@@ -86,6 +86,7 @@
         <div class="sabores" id="lista-sabores"></div>
         <div class="docinhos-cardapio">
           <h3>Docinhos pra acompanhar</h3>
+          <p id="docinhos-preco"></p>
           <ul id="lista-docinhos"></ul>
         </div>
       </div>
@@ -100,8 +101,10 @@
         <div class="sobre__texto">
           <p class="selo">Quem faz</p>
           <h2>Prazer, eu sou a <span class="js-nome">Natália</span>!</h2>
-          <p>A <strong>NaDoces</strong> nasceu do amor por reunir as pessoas em volta de uma mesa. Cada bolo é feito à mão, em pequena escala, com ingredientes selecionados e muito carinho.</p>
-          <p>Do primeiro aniversário ao batizado, do bolo de domingo ao cardápio de Natal e Páscoa: me conta o que você está celebrando que eu crio o bolo pra esse momento.</p>
+          <p>A <strong>NaDoces</strong> nasceu do amor pela confeitaria e por esses momentos em que as pessoas se reúnem para celebrar a vida. Sempre acreditei que um bolo vai além da mesa: ele faz parte dos encontros, das surpresas, dos parabéns cantados e das lembranças que levamos com a gente.</p>
+          <p>Por trás de cada bolo feito à mão, tem dedicação, cuidado na escolha dos ingredientes e o desejo de tornar cada celebração ainda mais especial.</p>
+          <p>Dos primeiros aniversários às comemorações em família, quero fazer parte desses momentos e ajudar a transformá-los em memórias que ficam.</p>
+          <p class="sobre__assinatura">Você me conta o momento. Eu cuido do bolo.</p>
           <a href="https://instagram.com/nadocesconfeitaria" target="_blank" rel="noopener" class="btn btn--contorno">Ver mais no Instagram</a>
         </div>
       </div>
@@ -153,7 +156,8 @@
 
             <div class="calc__campo">
               <label for="data">Data da festa <span class="opcional">(opcional)</span></label>
-              <input type="date" id="data">
+              <input type="date" id="data" aria-describedby="data-aviso">
+              <small id="data-aviso" class="js-aviso-agenda"></small>
             </div>
           </form>
 
@@ -180,6 +184,7 @@
           <li><span>2</span><h3>Monte na calculadora</h3><p>Escolha o tamanho e o sabor e veja uma ideia do valor.</p></li>
           <li><span>3</span><h3>Chame no WhatsApp</h3><p>Conta a data, o tema e os sabores — e reserve sua data na agenda.</p></li>
         </ol>
+        <p class="passos__aviso js-aviso-agenda"></p>
         <div class="centro"><a href="#calculadora" class="btn btn--branco">Ir para a calculadora</a></div>
       </div>
     </section>

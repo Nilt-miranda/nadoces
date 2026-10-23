@@ -12,13 +12,14 @@ const CONFIG = {
   whatsapp: '5511989794114',      // só números, com 55 + DDD
   gramasPorPessoa: 100,           // usado na calculadora por nº de pessoas
   docinhosPasso: 10,              // os botões − / + dos docinhos andam de quanto em quanto
+  diasAntecedencia: 5,            // encomendas com pelo menos X dias de antecedência
 };
 
 // Tipos de bolo (aparecem nos cards, nos filtros da galeria e na calculadora)
 // calc: false = não aparece na calculadora (não é vendido por kg)
 const TIPOS = [
   { id: 'aniversario', nome: 'Aniversário',     icone: '🎂', desc: 'Chantininho, merengue maçaricado, drip de chocolate e morangos frescos.' },
-  { id: 'tematicos',   nome: 'Temáticos',       icone: '🎨', desc: 'Copa, Halloween, batizado… com papel de arroz e detalhes de chocolate.' },
+  { id: 'tematicos',   nome: 'Temáticos',       icone: '🎨', desc: 'Copa, Halloween, batizado e o tema que a sua festa pedir.' },
   { id: 'sobremesas',  nome: 'Sobremesas',      icone: '🍓', desc: 'Pavlova de frutas vermelhas, merengue de morango e outras delícias.' },
   { id: 'caseiros',    nome: 'Caseiros',        icone: '🏡', desc: 'Bolinho de cenoura com chocolate e outros pro café da tarde.' },
   { id: 'doces',       nome: 'Doces artesanais', icone: '🍬', desc: 'Brigadeiros gourmet, caixinhas de presente e cardápios de Natal e Páscoa.', calc: false },
@@ -54,13 +55,12 @@ const SABORES = [
 ];
 
 // Docinhos que podem ser adicionados ao pedido na calculadora.
-// precoUn: preço por unidade (R$). Deixe null enquanto o valor for "a combinar".
+// precoCento: preço do cento (R$). Use null pra "consultar valor".
 const DOCINHOS = [
-  { nome: 'Brigadeiro',             desc: 'Tradicional, ao leite',       precoUn: null },
-  { nome: 'Beijinho',               desc: 'De coco',                     precoUn: null },
-  { nome: 'Casadinho',              desc: 'Ninho com brigadeiro',        precoUn: null },
-  { nome: 'Bicho de pé',            desc: 'De morango',                  precoUn: null },
-  { nome: 'Brigadeiro meio amargo', desc: 'Chocolate meio amargo',       precoUn: null },
-  { nome: 'Brigadeiro com Nutella', desc: 'Recheado com Nutella',        precoUn: null },
-  { nome: 'Docinhos temáticos',     desc: 'Decorados no tema da festa',  precoUn: null },
+  { nome: 'Brigadeiro',                          desc: 'Tradicional, ao leite', precoCento: 130 },
+  { nome: 'Beijinho',                            desc: 'De coco',               precoCento: 130 },
+  { nome: 'Bicho de pé',                         desc: 'De morango',            precoCento: 130 },
+  { nome: 'Paçoca',                              desc: '',                      precoCento: 130 },
+  { nome: 'Churros',                             desc: '',                      precoCento: 130 },
+  { nome: 'Brigadeiro com confeito de chocolate', desc: '',                     precoCento: null },
 ];
